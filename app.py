@@ -1,10 +1,9 @@
 try:
-    from src.gui.main_window import display_input, create_gui_images
+    from src.gui.main_window import display_input
 except ModuleNotFoundError:
     print("tkinter no está disponible. Ejecutando en modo terminal.")
     display_input = None
-    create_gui_images = None
-    from src.utils.api import fetch_pokemon_data, fetch_evolution_chain
+    from src.utils.api import fetch_pokemon_data, create_gui_images, fetch_evolution_chain
 
 if __name__ == "__main__":
     if display_input:
