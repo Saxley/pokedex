@@ -16,7 +16,6 @@ if __name__ == "__main__":
         pokemon_data = fetch_pokemon_data(pokemon_name)
         if pokemon_data:
             evolutions = fetch_evolution_chain(pokemon_name)
-            from src.utils.helpers import create_gui_images
             create_gui_images(pokemon_data, evolutions)
         else:
             print(f"No se encontraron datos para el Pokémon: {pokemon_name}.")
