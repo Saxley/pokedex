@@ -8,7 +8,12 @@
 4. Habilidades
 5. Tipos
 
-> Se debera guardar la información en un json dentro de una carpeta llamada pokedex.<br>Terminado se debera subir el codigo a github donde se explicaran los siguientes puntos: 6. Como lo realizaste. 7. Que bibliotecas se necesitan, para que otro usuario pueda ejecutar el proyecto. 8. Mostrando imagenes de muestra de algun resultado. 9. # Describir que has aprendido en este curso.
+> Se debera guardar la información en un json dentro de una carpeta llamada pokedex.<br>Terminado se debera subir el codigo a github donde se explicaran los siguientes puntos:
+
+1. Como lo realizaste.
+2. Que bibliotecas se necesitan, para que otro usuario pueda ejecutar el proyecto.
+3. Mostrando imagenes de muestra de algun resultado.
+4. Describir que has aprendido en este curso.
 
 ### Objetivos
 
