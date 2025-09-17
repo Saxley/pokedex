@@ -1,7 +1,20 @@
-import tkinter as tk # Esta librería nos funciona para crear la interfaz de usuario GUI
-from tkinter import messagebox # messagebox, nos ayuda a mostrar errores
+import importlib.util
+
+# Verificar si tkinter está disponible en el dispositivo
+def is_tkinter_available():
+    return importlib.util.find_spec("tkinter") is not None
+
+if is_tkinter_available():
+    import tkinter as tk  # Esta librería nos funciona para crear la interfaz de usuario GUI
+    from tkinter import messagebox  # messagebox, nos ayuda a mostrar errores
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+else:
+    print("tkinter no está disponible en este dispositivo. Algunas funcionalidades estarán limitadas.")
+    tk = None
+    messagebox = None
+    FigureCanvasTkAgg = None
+
 from PIL import Image, ImageDraw, ImageFont # Nos ayuda a generar imágenes
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.utils.api import fetch_pokemon_data, fetch_evolution_chain, fetch_move_data
 from src.utils.helpers import create_radar_graph, fetch_and_resize_image, create_move_graph
 import os
