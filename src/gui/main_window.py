@@ -15,11 +15,12 @@ def display_move_graph(move_name):
             messagebox.showerror("Error", f"No se pudieron obtener datos para el movimiento: {move_name}.")
             return
 
+
         # Crear una nueva ventana para el gráfico
         graph_window = tk.Toplevel()
         graph_window.title(f"Movimiento: {move_name}")
 
-        # Crear el gráfico usando la función auxiliar
+        # Crear el gráfico usando la función auxiliar traida desde helpers
         fig = create_move_graph(move_name, move_data["power"], len(move_data["effect"]))
 
         # Incrustar el gráfico en la ventana
@@ -64,7 +65,7 @@ def display_evolutions(image_frame, pokemon_name, window):
     search_button = tk.Button(bottom_frame_search, text="Buscar otro Pokémon", command=lambda: [window.destroy(), display_input()], bg="#FA8800", fg="white", font=("Confortaa", 12))
     search_button.pack(side="bottom", pady=(0, 5))
     # Botón para cerrar la ventana
-    close_button = tk.Button(bottom_frame, text="Close", command=window.destroy, bg="black", fg="white", font=("Confortaa", 10))
+    close_button = tk.Button(bottom_frame, text="Cerrar", command=window.destroy, bg="black", fg="white", font=("Confortaa", 10))
     close_button.pack(side="bottom", pady=10)
 
 # Función para mostrar los datos de un Pokémon
@@ -76,6 +77,9 @@ def display_pokemon_data(pokemon_name):
     pokemon_data = fetch_pokemon_data(pokemon_name)
     if not pokemon_data:
         messagebox.showerror("Error", f"Could not fetch data for {pokemon_name}.")
+        if 'window' in locals():  # Verificar si 'window' está definido
+            window.destroy()  # Destruir la ventana actual si existe
+        display_input()  # Redirigir a la función de entrada
         return
 
     # Create main window
