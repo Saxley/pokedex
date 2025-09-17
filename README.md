@@ -12,20 +12,21 @@
 
 ### Objetivos
 
-[+] El participante:
-[+] Aprenderá a consumir una API web pública con la librería requests.
-[+] Dominará la gestión de códigos de status de una API así como el manejo de los resultados.
-[+] Será capaz de crear un archivo dentro del sistema operativo y guardar información en él.
-[+] Arenderá un poco del mundo Pokémon.
+- El participante:
+- Aprenderá a consumir una API web pública con la librería requests.
+- Dominará la gestión de códigos de status de una API así como el manejo de los resultados.
+- Será capaz de crear un archivo dentro del sistema operativo y guardar información en él.
+- Arenderá un poco del mundo Pokémon.
 
 ### Requisitos:
 
-[+] El proyecto debe realizarse de forma individual.
-[+] Los participantes deben entregar el link de su repositorio público de GitHub donde en el README.md detallen cómo lo hicieron, qué bibliotecas necesitaría otro usuario para ejecutar el proyecto, mostrando imágenes de muestra de algún resultado de búsqueda de un pokémon y describiendo qué han aprendido en este módulo.
+- El proyecto debe realizarse de forma individual.
+- Los participantes deben entregar el link de su repositorio público de GitHub donde en el README.md detallen cómo lo hicieron, qué bibliotecas necesitaría otro usuario para ejecutar el proyecto, mostrando imágenes de muestra de algún resultado de búsqueda de un pokémon y describiendo qué han aprendido en este módulo.
 
 ### Entregables
 
 > Los participantes deberán entregar un repositorio de su código en GitHub con los siguientes archivos:
-> [+] README.md : Donde explicarán su proyecto y lo que han aprendido como previamente se mencionó.
-> [+] Archivo .py: El código funcional comentado de su proyecto.
-> [+] Carpeta “pokedex”: Una carpeta con un archivo .json adentro para demostrar que han podido guardar información en un archivo con éxito.
+
+- README.md : Donde explicarán su proyecto y lo que han aprendido como previamente se mencionó.
+- Archivo .py: El código funcional comentado de su proyecto.
+- Carpeta “pokedex”: Una carpeta con un archivo .json adentro para demostrar que han podido guardar información en un archivo con éxito.
