@@ -10,7 +10,7 @@ def fetch_and_resize_image(url, size=(100, 100)):
     if response.status_code == 200:
         image_data = Image.open(BytesIO(response.content))
         image_data = image_data.resize(size)
-        return ImageTk.PhotoImage(image_data)
+        return image_data  # Return the Pillow image object instead of ImageTk.PhotoImage
     return None
 
 # Función para crear un gráfico de radar con las estadísticas de un Pokémon
