@@ -1,4 +1,5 @@
 import importlib.util
+import matplotlib.pyplot as plt
 
 # Verificar si tkinter está disponible en el dispositivo
 def is_tkinter_available():
@@ -211,52 +212,49 @@ def display_input():
 # Función para crear imágenes de la GUI
 # Genera una representación visual de la interfaz en formato de imagen
 # Esto es útil para dispositivos que no soportan tkinter
-def create_gui_images():
-    """Create GUI-like images for devices that do not support tkinter, based on user input."""
-    # Solicitar el nombre del Pokémon al usuario
-    pokemon_name = input("Ingrese el nombre del Pokémon: ").strip().lower()
-
-    # Obtener los datos del Pokémon
-    pokemon_data = fetch_pokemon_data(pokemon_name)
-    if not pokemon_data:
-        print(f"No se pudieron obtener los datos para el Pokémon: {pokemon_name}.")
-        return
-
-    # Obtener las evoluciones del Pokémon
-    evolutions = fetch_evolution_chain(pokemon_name)
-
+def create_gui_images(pokemon_data, evolutions):
+    """Create GUI-like images for devices that do not support tkinter, using matplotlib."""
     # Asegurarse de que el directorio exista
     output_dir = "assets/pokedex_search"
     os.makedirs(output_dir, exist_ok=True)
 
-    # Crear la imagen principal
-    main_image = Image.new("RGB", (800, 600), "red")
-    draw = ImageDraw.Draw(main_image)
+    # Crear la figura principal
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_facecolor("red")
+    ax.axis("off")
 
     # Agregar el nombre y detalles del Pokémon
-    font = ImageFont.truetype("arial.ttf", 20)
-    draw.text((20, 20), f"Name: {pokemon_data['name'].upper()}", fill="white", font=font)
-    draw.text((20, 60), f"Types: {', '.join(pokemon_data['types']).upper()}", fill="white", font=font)
-    draw.text((20, 100), f"Weight: {pokemon_data['weight']} kg", fill="white", font=font)
-    draw.text((20, 140), f"Height: {pokemon_data['height']} m", fill="white", font=font)
-    draw.text((20, 180), f"Abilities: {', '.join(pokemon_data['abilities']).upper()}", fill="white", font=font)
+    details = (
+        f"Name: {pokemon_data['name'].upper()}\n"
+        f"Types: {', '.join(pokemon_data['types']).upper()}\n"
+        f"Weight: {pokemon_data['weight']} kg\n"
+        f"Height: {pokemon_data['height']} m\n"
+        f"Abilities: {', '.join(pokemon_data['abilities']).upper()}"
+    )
+    ax.text(0.05, 0.9, details, color="white", fontsize=12, va="top", transform=ax.transAxes)
 
     # Agregar la imagen del Pokémon
     pokemon_image = fetch_and_resize_image(pokemon_data['image_url'], size=(150, 150))
     if pokemon_image:
-        pokemon_pil_image = Image.open(pokemon_data['image_url'])
-        main_image.paste(pokemon_pil_image, (600, 20))
+        ax.imshow(pokemon_image, extent=[0.6, 0.9, 0.6, 0.9], aspect="auto")
+
+    # Crear un gráfico de radar para las estadísticas del Pokémon
+    stats_radar_graph = create_radar_graph(pokemon_data['stats'])
+    radar_ax = fig.add_axes([0.05, 0.05, 0.4, 0.4], polar=True, facecolor="white")
+    stats_radar_graph.axes[0].change_geometry(1, 1, 1)
+    radar_ax.remove()
+    fig.add_axes(stats_radar_graph.axes[0])
 
     # Agregar las imágenes de las evoluciones
-    x_offset = 20
+    x_offset = 0.05
     for evolution in evolutions:
         evo_image = fetch_and_resize_image(evolution['image_url'], size=(100, 100))
         if evo_image:
-            evo_pil_image = Image.open(evolution['image_url'])
-            main_image.paste(evo_pil_image, (x_offset, 400))
-            x_offset += 120
+            ax.imshow(evo_image, extent=[x_offset, x_offset + 0.2, 0.05, 0.25], aspect="auto")
+            x_offset += 0.25
 
     # Guardar la imagen en el directorio especificado
     output_path = os.path.join(output_dir, f"{pokemon_data['name']}_gui.png")
-    main_image.save(output_path)
+    plt.savefig(output_path, bbox_inches="tight")
+    plt.close(fig)
     print(f"Imagen creada exitosamente: {output_path}")
