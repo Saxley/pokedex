@@ -1,21 +1,7 @@
-import importlib.util
-import matplotlib.pyplot as plt
-
-# Verificar si tkinter está disponible en el dispositivo
-def is_tkinter_available():
-    return importlib.util.find_spec("tkinter") is not None
-
-if is_tkinter_available():
-    import tkinter as tk  # Esta librería nos funciona para crear la interfaz de usuario GUI
-    from tkinter import messagebox  # messagebox, nos ayuda a mostrar errores
-    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-else:
-    print("tkinter no está disponible en este dispositivo. Algunas funcionalidades estarán limitadas.")
-    tk = None
-    messagebox = None
-    FigureCanvasTkAgg = None
-
-from PIL import Image, ImageDraw, ImageFont # Nos ayuda a generar imágenes
+import tkinter as tk # Esta librería nos funciona para crear la interfaz de usuario GUI
+from tkinter import messagebox # messagebox, nos ayuda a mostrar errores
+from PIL import Image, ImageDraw, ImageFont, ImageTk # Nos ayuda a generar imágenes
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.utils.api import fetch_pokemon_data, fetch_evolution_chain, fetch_move_data
 from src.utils.helpers import create_radar_graph, fetch_and_resize_image, create_move_graph
 import os
@@ -67,9 +53,11 @@ def display_evolutions(image_frame, pokemon_name, window):
         # Obtener y redimensionar la imagen de la evolución
         evo_image = fetch_and_resize_image(evolution['image_url'], size=(50, 50)) 
         if evo_image:
+            # Convertir la imagen de Pillow a ImageTk.PhotoImage
+            evo_image_tk = ImageTk.PhotoImage(evo_image)
             # Crear un botón con la imagen de la evolución
-            evo_button = tk.Button(evolution_frame, image=evo_image, bg="red", command=lambda name=evolution['name']: [window.destroy(), display_pokemon_data(name)])
-            evo_button.image = evo_image 
+            evo_button = tk.Button(evolution_frame, image=evo_image_tk, bg="red", command=lambda name=evolution['name']: [window.destroy(), display_pokemon_data(name)])
+            evo_button.image = evo_image_tk  # Mantener una referencia para evitar recolección de basura
             evo_button.pack(side="left", padx=5)
         else:
             # Crear un botón con el nombre de la evolución si no hay imagen
@@ -121,9 +109,11 @@ def display_pokemon_data(pokemon_name):
 
     # Display Pokémon image on the left side
     image = fetch_and_resize_image(pokemon_data['image_url'], size=(200, 200))
+    # Convertir la imagen de Pillow a ImageTk.PhotoImage
     if image:
-        img_label = tk.Label(image_frame, image=image, bg="red")
-        img_label.image = image  # Keep a reference to avoid garbage collection
+        image_tk = ImageTk.PhotoImage(image)
+        img_label = tk.Label(image_frame, image=image_tk, bg="red")
+        img_label.image = image_tk  # Mantener una referencia para evitar recolección de basura
         img_label.pack(pady=10)
 
     # Mostrar información del Pokémon debajo de la imagen
@@ -208,53 +198,3 @@ def display_input():
     displays_center(input_window)
 
     input_window.mainloop()
-
-# Función para crear imágenes de la GUI
-# Genera una representación visual de la interfaz en formato de imagen
-# Esto es útil para dispositivos que no soportan tkinter
-def create_gui_images(pokemon_data, evolutions):
-    """Create GUI-like images for devices that do not support tkinter, using matplotlib."""
-    # Asegurarse de que el directorio exista
-    output_dir = "assets/pokedex_search"
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Crear la figura principal
-    fig, ax = plt.subplots(figsize=(8, 6))
-    ax.set_facecolor("red")
-    ax.axis("off")
-
-    # Agregar el nombre y detalles del Pokémon
-    details = (
-        f"Name: {pokemon_data['name'].upper()}\n"
-        f"Types: {', '.join(pokemon_data['types']).upper()}\n"
-        f"Weight: {pokemon_data['weight']} kg\n"
-        f"Height: {pokemon_data['height']} m\n"
-        f"Abilities: {', '.join(pokemon_data['abilities']).upper()}"
-    )
-    ax.text(0.05, 0.9, details, color="white", fontsize=12, va="top", transform=ax.transAxes)
-
-    # Agregar la imagen del Pokémon
-    pokemon_image = fetch_and_resize_image(pokemon_data['image_url'], size=(150, 150))
-    if pokemon_image:
-        ax.imshow(pokemon_image, extent=[0.6, 0.9, 0.6, 0.9], aspect="auto")
-
-    # Crear un gráfico de radar para las estadísticas del Pokémon
-    stats_radar_graph = create_radar_graph(pokemon_data['stats'])
-    radar_ax = fig.add_axes([0.05, 0.05, 0.4, 0.4], polar=True, facecolor="white")
-    stats_radar_graph.axes[0].change_geometry(1, 1, 1)
-    radar_ax.remove()
-    fig.add_axes(stats_radar_graph.axes[0])
-
-    # Agregar las imágenes de las evoluciones
-    x_offset = 0.05
-    for evolution in evolutions:
-        evo_image = fetch_and_resize_image(evolution['image_url'], size=(100, 100))
-        if evo_image:
-            ax.imshow(evo_image, extent=[x_offset, x_offset + 0.2, 0.05, 0.25], aspect="auto")
-            x_offset += 0.25
-
-    # Guardar la imagen en el directorio especificado
-    output_path = os.path.join(output_dir, f"{pokemon_data['name']}_gui.png")
-    plt.savefig(output_path, bbox_inches="tight")
-    plt.close(fig)
-    print(f"Imagen creada exitosamente: {output_path}")
