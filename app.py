@@ -1,5 +1,5 @@
 try:
-    from src.gui.main_window import display_input, create_gui_images
+    from src.gui.main_window import display_input
 except ModuleNotFoundError:
     print("tkinter no está disponible. Ejecutando en modo terminal.")
     display_input = None
