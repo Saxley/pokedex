@@ -100,6 +100,3 @@ def generate_static_pokemon_images():
         combined_image_path = os.path.join(pokemon_dir, f"{pokemon_data['name']}_full_details.png")
         combined_image.save(combined_image_path)
         print(f"Gráfico completo guardado en: {combined_image_path}")
-
-if __name__ == "__main__":
-    generate_static_pokemon_images()

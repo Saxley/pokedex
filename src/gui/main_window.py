@@ -1,6 +1,6 @@
 import tkinter as tk # Esta librería nos funciona para crear la interfaz de usuario GUI
 from tkinter import messagebox # messagebox, nos ayuda a mostrar errores
-from PIL import Image, ImageDraw, ImageFont # Nos ayuda a generar imágenes
+from PIL import Image, ImageDraw, ImageFont, ImageTk # Nos ayuda a generar imágenes
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.utils.api import fetch_pokemon_data, fetch_evolution_chain, fetch_move_data
 from src.utils.helpers import create_radar_graph, fetch_and_resize_image, create_move_graph
@@ -53,9 +53,11 @@ def display_evolutions(image_frame, pokemon_name, window):
         # Obtener y redimensionar la imagen de la evolución
         evo_image = fetch_and_resize_image(evolution['image_url'], size=(50, 50)) 
         if evo_image:
+            # Convertir la imagen de Pillow a ImageTk.PhotoImage
+            evo_image_tk = ImageTk.PhotoImage(evo_image)
             # Crear un botón con la imagen de la evolución
-            evo_button = tk.Button(evolution_frame, image=evo_image, bg="red", command=lambda name=evolution['name']: [window.destroy(), display_pokemon_data(name)])
-            evo_button.image = evo_image 
+            evo_button = tk.Button(evolution_frame, image=evo_image_tk, bg="red", command=lambda name=evolution['name']: [window.destroy(), display_pokemon_data(name)])
+            evo_button.image = evo_image_tk  # Mantener una referencia para evitar recolección de basura
             evo_button.pack(side="left", padx=5)
         else:
             # Crear un botón con el nombre de la evolución si no hay imagen
@@ -107,9 +109,11 @@ def display_pokemon_data(pokemon_name):
 
     # Display Pokémon image on the left side
     image = fetch_and_resize_image(pokemon_data['image_url'], size=(200, 200))
+    # Convertir la imagen de Pillow a ImageTk.PhotoImage
     if image:
-        img_label = tk.Label(image_frame, image=image, bg="red")
-        img_label.image = image  # Keep a reference to avoid garbage collection
+        image_tk = ImageTk.PhotoImage(image)
+        img_label = tk.Label(image_frame, image=image_tk, bg="red")
+        img_label.image = image_tk  # Mantener una referencia para evitar recolección de basura
         img_label.pack(pady=10)
 
     # Mostrar información del Pokémon debajo de la imagen
