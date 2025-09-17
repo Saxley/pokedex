@@ -1,4 +1,4 @@
-from PIL import Image, ImageTk
+from PIL import Image
 import requests
 from matplotlib.figure import Figure
 from io import BytesIO
