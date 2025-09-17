@@ -12,7 +12,6 @@
 
 ### Objetivos
 
-- El participante:
 - Aprenderá a consumir una API web pública con la librería requests.
 - Dominará la gestión de códigos de status de una API así como el manejo de los resultados.
 - Será capaz de crear un archivo dentro del sistema operativo y guardar información en él.
