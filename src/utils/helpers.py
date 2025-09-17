@@ -1,4 +1,4 @@
-from PIL import Image, ImageTk
+from PIL import Image
 import requests
 from matplotlib.figure import Figure
 from io import BytesIO
@@ -10,7 +10,7 @@ def fetch_and_resize_image(url, size=(100, 100)):
     if response.status_code == 200:
         image_data = Image.open(BytesIO(response.content))
         image_data = image_data.resize(size)
-        return ImageTk.PhotoImage(image_data)
+        return image_data  # Devuelve la imagen PIL directamente
     return None
 
 # Función para crear un gráfico de radar con las estadísticas de un Pokémon
