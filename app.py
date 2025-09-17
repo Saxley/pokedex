@@ -1,15 +1,19 @@
 try:
-    from src.gui.main_window import display_input
+    # Importamos la función display_input encargada de mostrar la interfaz del usuario
+    from src.gui.main_window import display_input, create_gui_images
 except ModuleNotFoundError:
     print("tkinter no está disponible. Ejecutando en modo terminal.")
     display_input = None
-    from src.gui.main_window import create_gui_images
-    from src.utils.api import fetch_pokemon_data, fetch_evolution_chain
+    create_gui_images = None
 
+# Punto de entrada principal de la aplicación
 if __name__ == "__main__":
     if display_input:
-        display_input()  # Ejecutar la interfaz gráfica si tkinter está disponible
+        # Ejecutamos la función principal para iniciar la interfaz gráfica
+        display_input()
     else:
+        from src.utils.api import fetch_pokemon_data, fetch_evolution_chain
+        from src.gui.main_window import create_gui_images
         # Modo terminal: solicitar el nombre del Pokémon y generar imágenes
         pokemon_name = input("Ingrese el nombre del Pokémon: ").strip().lower()
 
