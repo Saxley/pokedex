@@ -1,4 +1,10 @@
 try:
+    from matplotlib.figure import Figure
+except ModuleNotFoundError:
+    print("matplotlib no está disponible. Algunas funcionalidades estarán limitadas.")
+    Figure = None
+
+try:
     from src.gui.main_window import display_input, create_gui_images
 except ModuleNotFoundError:
     print("tkinter no está disponible. Ejecutando en modo terminal.")
@@ -16,7 +22,9 @@ if __name__ == "__main__":
         pokemon_data = fetch_pokemon_data(pokemon_name)
         if pokemon_data:
             evolutions = fetch_evolution_chain(pokemon_name)
-            from src.utils.helpers import create_gui_images
-            create_gui_images(pokemon_data, evolutions)
+            if create_gui_images:
+                create_gui_images(pokemon_data, evolutions)
+            else:
+                print("No se pueden generar imágenes sin matplotlib.")
         else:
             print(f"No se encontraron datos para el Pokémon: {pokemon_name}.")
