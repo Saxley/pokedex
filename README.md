@@ -2,11 +2,11 @@
 
 > El usuario debe introducir el nombre del pokemón.<br>Debe mostrar una imagen y las estadisticas.<br>Las estadisticas deben contener:
 
-1. Peso
-2. Tamaño
-3. Movimientos
-4. Habilidades
-5. Tipos
+1. Peso [x]
+2. Tamaño [x]
+3. Movimientos [x]
+4. Habilidades [x]
+5. Tipos [x]
 
 > Se debera guardar la información en un json dentro de una carpeta llamada pokedex.<br>Terminado se debera subir el codigo a github donde se explicaran los siguientes puntos:
 

@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk # Nos ayuda a generar imág
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.utils.api import fetch_pokemon_data, fetch_evolution_chain, fetch_move_data
 from src.utils.helpers import create_radar_graph, fetch_and_resize_image, create_move_graph
+from src.utils.save_search_json import save_pokemon_data_as_json
 import os
 
 # Función para mostrar un gráfico de un movimiento
@@ -155,6 +156,10 @@ def display_pokemon_data(pokemon_name):
 
     # Call display_evolutions to add evolution buttons
     display_evolutions(image_frame, pokemon_name, window)
+
+    # Guardar la información del Pokémon en un archivo JSON
+    output_dir = "assets/pokedex_search"
+    save_pokemon_data_as_json(pokemon_data, output_dir)
 
     window.mainloop()
 
