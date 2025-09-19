@@ -1,3 +1,5 @@
+# POKEDEX
+
 ### Instrucciones.
 
 > El usuario debe introducir el nombre del pokemón.<br>Debe mostrar una imagen y las estadisticas.<br>Las estadisticas deben contener:

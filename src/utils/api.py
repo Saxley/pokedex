@@ -1,11 +1,11 @@
 import requests
 
-# Función para obtener los datos de un Pokémon desde la PokéAPI
+# Function to fetch Pokémon data from the PokéAPI
 def fetch_pokemon_data(pokemon_name):
-    """Obtiene los datos de un Pokémon desde la PokéAPI."""
+    """Fetches Pokémon data from the PokéAPI."""
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}"
     response = requests.get(url)
-    if response.status_code == 200:
+    if response.status_code == 200: #Status
         data = response.json()
         return {
             "name": data["name"],
@@ -13,27 +13,27 @@ def fetch_pokemon_data(pokemon_name):
             "image_url": data["sprites"]["front_default"],
             "types": [t["type"]["name"] for t in data["types"]],
             "abilities": [a["ability"]["name"] for a in data["abilities"]],
-            "weight": data["weight"] / 10,  # Convertir a kilogramos
-            "height": data["height"] / 10,  # Convertir a metros
+            "weight": data["weight"] / 10,  # Convert to kilograms
+            "height": data["height"] / 10,  # Convert to meters
             "moves": [move["move"]["name"] for move in data["moves"]],
         }
     return None
 
-# Función para obtener la cadena de evoluciones de un Pokémon
+# Function to fetch the evolution chain of a Pokémon
 def fetch_evolution_chain(pokemon_name):
-    """Obtiene la cadena de evoluciones de un Pokémon."""
+    """Fetches the evolution chain of a Pokémon."""
     species_url = f"https://pokeapi.co/api/v2/pokemon-species/{pokemon_name.lower()}"
     species_response = requests.get(species_url)
-    if species_response.status_code == 200:
+    if species_response.status_code == 200: #Status
         species_data = species_response.json()
         evolution_chain_url = species_data["evolution_chain"]["url"]
         evolution_response = requests.get(evolution_chain_url)
-        if evolution_response.status_code == 200:
+        if evolution_response.status_code == 200: #Status
             evolution_data = evolution_response.json()
             chain = evolution_data["chain"]
             evolutions = []
 
-            # Función interna para extraer las evoluciones
+            # Internal function to extract evolutions
             def extract_evolutions(chain):
                 evolutions.append({
                     "name": chain["species"]["name"],
@@ -46,16 +46,16 @@ def fetch_evolution_chain(pokemon_name):
             return evolutions
     return []
 
-# Función para obtener los datos de un movimiento desde la PokéAPI
+# Function to fetch move data from the PokéAPI
 def fetch_move_data(move_name):
-    """Obtiene los datos de un movimiento desde la PokéAPI."""
+    """Fetches move data from the PokéAPI."""
     url = f"https://pokeapi.co/api/v2/move/{move_name.lower()}"
     response = requests.get(url)
-    if response.status_code == 200:
+    if response.status_code == 200: #Status
         data = response.json()
         return {
             "name": data["name"],
-            "power": data.get("power", 0) or 0,  # Asegurar que el poder sea 0 si es None
-            "effect": data["effect_entries"][0]["short_effect"] if data["effect_entries"] else "No hay descripción del efecto."
+            "power": data.get("power", 0) or 0,  # Ensure power is 0 if None
+            "effect": data["effect_entries"][0]["short_effect"] if data["effect_entries"] else "No effect description available."
         }
     return None
