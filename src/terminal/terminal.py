@@ -8,16 +8,25 @@ import matplotlib.pyplot as plt
 
 # Main function to generate static images with Pokémon data.
 def generate_static_pokemon_images():
-    print("Welcome to the Pokédex from the command line.")
-    # Ask the user for the name of the Pokémon they want to search for.
-    pokemon_name = input("Enter the name of the Pokémon: ").strip().lower()
-
+    print("Bienvenido a la Pokédex desde la linea de comandos.")
     # Fetch Pokémon data from the API.
-    pokemon_data = fetch_pokemon_data(pokemon_name)
-    if not pokemon_data:
-        # If no data is found, display a message and terminate execution.
-        print(f"No data found for the Pokémon: {pokemon_name}.")
-        return
+    while True:
+        # Ask the user for the name of the Pokémon they want to search for.
+        pokemon_name = input("Enter the name of the Pokémon: ").strip().lower()    
+        if not pokemon_name:
+            # If user not input, display a message warning and instructions for exit of execute.
+            print(f"No ingresaste texto, intentalo de nuevo o presiona ctrl+c para salir : {pokemon_name}.")
+            continue
+        # Search the pokemon
+        pokemon_data = fetch_pokemon_data(pokemon_name)
+        if pokemon_data:
+            # if found a pokemon, display a message sucessfull
+            print(f"¡Éxito! Se encontró información sobre {pokemon_name}.")
+            break
+        else:
+            # if not found a pokemon, display a message warning.
+            print(f"No se encontró información sobre el Pokémon: {pokemon_name}. Por favor, inténtalo de nuevo.")
+
 
     # Fetch the Pokémon's evolution chain.
     evolutions = fetch_evolution_chain(pokemon_name)
@@ -25,56 +34,34 @@ def generate_static_pokemon_images():
     # Create the output directory to save the generated files.
     output_dir = "assets/pokedex_search"
     os.makedirs(output_dir, exist_ok=True)
-
-    # Create a main image to display the Pokémon's data.
-    main_image = Image.new("RGB", (800, 600), "red")
-    draw = ImageDraw.Draw(main_image)
-
-    # Attempt to load the Arial font; if unavailable, use a default font.
-    try:
-        font = ImageFont.truetype("arial.ttf", 20)
-    except OSError:
-        font = ImageFont.load_default()
-
-    # Add the Pokémon's name and details to the main image.
-    draw.text((20, 20), f"Name: {pokemon_data['name'].upper()}", fill="white", font=font)
-    draw.text((20, 60), f"Types: {', '.join(pokemon_data['types']).upper()}", fill="white", font=font)
-    draw.text((20, 100), f"Weight: {pokemon_data['weight']} kg", fill="white", font=font)
-    draw.text((20, 140), f"Height: {pokemon_data['height']} m", fill="white", font=font)
-    draw.text((20, 180), f"Abilities: {', '.join(pokemon_data['abilities']).upper()}", fill="white", font=font)
-
-    # Add the Pokémon's image in the top-right corner.
-    pokemon_image = fetch_and_resize_image(pokemon_data['image_url'], size=(150, 150))
-    if pokemon_image:
-        main_image.paste(pokemon_image, (600, 20))  # Paste the image directly onto the canvas.
-
     # Create a subdirectory with the Pokémon's name to save its files.
     pokemon_dir = os.path.join(output_dir, pokemon_data['name'].lower())
     os.makedirs(pokemon_dir, exist_ok=True)
 
-    # Save the main image in the subdirectory.
-    main_image_path = os.path.join(pokemon_dir, f"{pokemon_data['name']}_details.png")
-    main_image.save(main_image_path)
-    print(f"Main image saved at: {main_image_path}")
+    # Attempt to load the Confortaa font; if unavailable, use a default font.
+    try:
+        font = ImageFont.truetype("confortaa.ttf", 12)
+    except OSError:
+        font = ImageFont.load_default()
 
     # Create a radar graph with the Pokémon's stats.
     radar_graph = create_radar_graph(pokemon_data['stats'])
     radar_graph_path = os.path.join(pokemon_dir, f"{pokemon_data['name']}_stats.png")
     radar_graph.savefig(radar_graph_path)  # Save the graph in the subdirectory.
     plt.close(radar_graph)  # Close the graph to free resources.
-
+    pokemon_image = fetch_and_resize_image(pokemon_data['image_url'], size=(150, 150))
     # Save the Pokémon's evolution images in the subdirectory.
     for evolution in evolutions:
         evo_image = fetch_and_resize_image(evolution['image_url'], size=(100, 100))
         if evo_image:
             evo_image_path = os.path.join(pokemon_dir, f"{evolution['name']}_evolution.png")
             evo_image.save(evo_image_path)
-            print(f"Evolution image saved at: {evo_image_path}")
+            print(f"Imagen de la evolución, se almaceno con exíto: {evo_image_path}")
 
     # Create a combined graph with the Pokémon's data and evolutions.
     if evolutions:
         canvas_width = 800
-        canvas_height = 600
+        canvas_height = 1000
         combined_image = Image.new("RGB", (canvas_width, canvas_height), "white")
         draw = ImageDraw.Draw(combined_image)
 
@@ -84,21 +71,50 @@ def generate_static_pokemon_images():
         combined_image.paste(radar_graph_image, (radar_x, 20))
 
         # Add the Pokémon's data and image in the second row.
-        y_offset = 300
+        y_offset = 240
+        pokemon= pokemon_data['name']
         draw.text((20, y_offset), f"Name: {pokemon_data['name'].upper()}", fill="black", font=font)
         draw.text((20, y_offset + 40), f"Types: {', '.join(pokemon_data['types']).upper()}", fill="black", font=font)
         draw.text((20, y_offset + 80), f"Weight: {pokemon_data['weight']} kg", fill="black", font=font)
         draw.text((20, y_offset + 120), f"Height: {pokemon_data['height']} m", fill="black", font=font)
         draw.text((20, y_offset + 160), f"Abilities: {', '.join(pokemon_data['abilities']).upper()}", fill="black", font=font)
 
-        pokemon_image = fetch_and_resize_image(pokemon_data['image_url'], size=(200, 200))
+        # Define a starting vertical position for the evolutions to be pasted
+        EVOLUTION_START_Y = 50 
+        Y_OFFSET_PER_EVOLUTION = 120 # Vertical space between evolution images
+
         if pokemon_image:
-            image_x = canvas_width - pokemon_image.width - 20
-            combined_image.paste(pokemon_image, (image_x, y_offset))
+            # 1. Paste the main Pokémon image
+            combined_image.paste(pokemon_image, (0, 50))
+            # 2. Iterate and paste the evolution images
+            current_y = EVOLUTION_START_Y # Initialize the vertical position for the first evolution
+            for i, evolution in enumerate(evolutions):
+                if evolution['name'] != pokemon:
+                    try:
+                        # Construct the file path clearly
+                        evo_filename = f"{evolution['name'].lower()}_evolution.png"
+                        evo_path = f"{output_dir}/{pokemon_data['name'].lower()}/{evo_filename}"
+                        evo_image = Image.open(evo_path)
+
+                        # Calculate the horizontal position
+                        image_evo_x = canvas_width - evo_image.width - 20
+
+                        # Paste the evolution image at the calculated (x, y)
+                        combined_image.paste(evo_image, (image_evo_x, current_y))
+
+                        # Update the vertical position for the next evolution
+                        current_y += Y_OFFSET_PER_EVOLUTION 
+
+                    except FileNotFoundError:
+                        print(f"Advertencia: No se encontro la imagen de la evolución {evo_path}")
+                    except Exception as e:
+                        print(f"Ocurrio un error mientras se procesaba {evolution['name']}: {e}")
+
+
 
         combined_image_path = os.path.join(pokemon_dir, f"{pokemon_data['name']}_full_details.png")
         combined_image.save(combined_image_path)
-        print(f"Complete graph saved at: {combined_image_path}")
+        print(f"Se almaceno el gráfico: {combined_image_path} con exíto")
 
     # Save all the Pokémon's information in a JSON file.
     save_pokemon_data_as_json(pokemon_data, output_dir)
