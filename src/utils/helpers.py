@@ -2,6 +2,7 @@ from PIL import Image
 import requests
 from matplotlib.figure import Figure
 from io import BytesIO
+import math
 
 # Function to fetch and resize an image from a URL
 def fetch_and_resize_image(url, size=(100, 100)):
@@ -23,7 +24,7 @@ def create_radar_graph(stats):
     labels = list(stats.keys())
     values = list(stats.values())
     values += values[:1]  # Close the circle
-    angles = [n / float(len(labels)) * 2 * 3.14159 for n in range(len(labels))]
+    angles = [n / float(len(labels)) * 2 * math.pi for n in range(len(labels))]
     angles += angles[:1]
 
     # Plot the data
