@@ -2,6 +2,8 @@
 
 > Este proyecto se realizo con ayuda del material que se encuentra en el curso, ademas se tomo como referencia el proyecto del sitio web https://programmerclick.com/article/37062133001/ y tambien se tomo como referencia la documentacion de tkinter https://docs.python.org/es/3/library/tkinter.html para la version GUI, utiliza diferentes bibliotecas, los requerimientos estan descritos como requirements_GUI.txt para la version GUI y requirements_terminal.txt para la versión de terminal.
 
+[Requerimientos](#Requerimientos)
+
 ## Versión terminal.
 
 > Ubicación : src.terminal.terminal.py<br>Esta versión utiliza las siguientes librerias:
@@ -273,3 +275,11 @@ Para el Pokémon **Vaporeon**:
 [Abrir JSON de eevee](assets/pokedex_search/pokedex/eevee.json)
 
 [Abrir JSON de vaporeon](assets/pokedex_search/pokedex/vaporeon.json)
+
+## Requerimientos
+
+> Para la ejecución del programa se debe de instalar los requerimientos, para ello tienes que activar tu entorno virtual con `source .tuentornovirtual/bin/activate` si estas en linux o mac, si estasen windows ejecuta `nombre_del_entorno\Scripts\activate.bat`.<br>Una vez ejecutado deberas ejecutar el siguiente comando `pip install -r requirements_terminal.txt` si deseas ejecutar la version para terminal o `pip install -r requirements_GUI.txt` si deseas ejecutar la versión interfaz grafica.<br>Una vez instalados los requerimientos debes modificar app.py, si deseas ejecutar la version GUI descomenta la siguiente linea: `from src.gui.main_window import display_input` y dentro del main descomenta la siguiente linea `display_input()`, despues comenta la siguiente linea `from src.terminal.terminal import generate_static_pokemon_images`para que no te marque error en caso de que no tengas las bibliotecas instaladas de la version terminal y comenta tambien `generate_static_pokemon_images()` para que no marque ningun error al no tener esa funcion importada. En caso contrario que desees ejecutar la version terminal, comentas las lineas de GUI y descomenta las lineas de terminal.<br>Por defecto esta la versión GUI ya que fue la ultima implementación que decidí agregar.
+
+## Conclusiones y que aprendí.
+
+> En este proyecto aprendí a manejar los estados de las solicitudes a APIs, de igual forma aprendí en como apoyarme en librerias, leer documentación de la API para saber como recolectar la información, almacenar archivos y reforzar mis conocimientos para crear imagenes, en mi caso anteriormente tome el curso de ciencia de datos y crear graficos se me facilito bastante, por otro lado me llamo mucho la atención el crear interfaces graficas y me anime ah agregarlo al proyecto.Personalmente me gusta mucho pokemon y me diverti mientras realizaba el proyecto.
