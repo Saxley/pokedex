@@ -150,7 +150,7 @@ def fetch_and_resize_image(url, size=(100, 100)):
             print(f"Imagen de la evolución, se almaceno con exíto: {evo_image_path}")
 ```
 
-> Para finalizar creamos la combinación de las imagenes con el grafico, asignamos las medidas del objeto canvas en variables, Creamos un nuevo objeto Image con el metodo **_Image.new()_** el cual recibe como parametro el sistema de color, las medidas y el color de fondo(bg), Una vez que tenemos el objeto **_Image_** dibujaremos sobre el con el metodo **_ImageDraw.draw()_**. Para dibujar encima de nuestro lienzo primero llamamos a abrir nuestro grafico de radar, esto con el metodo **_Image.open()_** en radar\*x asignamos las cordenadas donde ubicaremos el grafico, en este caso lo ubicaremos en el centro en el eje x, despues pegaremos el grafico con el metodo \*\*\*.paste()\_\*\* el cual recibe como parametro el grafico y su coordenada en X y Y.
+> Para finalizar creamos la combinación de las imagenes con el grafico, asignamos las medidas del objeto canvas en variables, Creamos un nuevo objeto Image con el metodo **_Image.new()_** el cual recibe como parametro el sistema de color, las medidas y el color de fondo(bg), Una vez que tenemos el objeto **_Image_** dibujaremos sobre el con el metodo **_ImageDraw.draw()_**. Para dibujar encima de nuestro lienzo primero llamamos a abrir nuestro grafico de radar, esto con el metodo **_Image.open()_** en radar\*x asignamos las cordenadas donde ubicaremos el grafico, en este caso lo ubicaremos en el centro en el eje x, despues pegamos el grafico con el metodo \*\*\*.paste()\_\*\* el cual recibe como parametro el grafico y su coordenada en X y Y.
 
 ```python
         radar_graph_image = Image.open(radar_graph_path)
@@ -209,43 +209,67 @@ def save_pokemon_data_as_json(pokemon_data, output_dir):
 
 [Abrir JSON de pikachu](assets/pokedex_search/pokedex/pikachu.json)
 
-## Versión GUI.
+## Versión GUI
 
-> Ubicación : src.gui.main_window.py<br>Esta versión utiliza las siguientes librerias:
+> Ubicación : src.gui.main_window.py<br>Esta versión utiliza las siguientes librerías:
 
-### Instrucciones.
+- **tkinter** : Esta librería nos ayuda a crear la interfaz gráfica de usuario.
+- **PIL** : La librería PIL nos ayuda a renderizar imágenes dentro de la interfaz gráfica.
+- **matplotlib** : Esta librería nos ayuda a generar gráficos de radar sobre las estadísticas del personaje.
+- **requests** : Esta librería nos ayuda a hacer las peticiones a la API Pokémon, así como trabajar los códigos de estado.
+- **json** : Esta librería nos ayuda a crear archivos JSON.
 
-> El usuario debe introducir el nombre del pokemón.<br>Debe mostrar una imagen y las estadisticas.<br>Las estadisticas deben contener:
+> El flujo de ejecución de la versión GUI se divide en las siguientes funciones principales:
 
-1. Peso [x]
-2. Tamaño [x]
-3. Movimientos [x]
-4. Habilidades [x]
-5. Tipos [x]
+### Flujo de ejecución:
 
-> Se debera guardar la información en un json dentro de una carpeta llamada pokedex.<br>Terminado se debera subir el codigo a github donde se explicaran los siguientes puntos:
+1. **display_input**:
 
-1. Como lo realizaste.
-2. Que bibliotecas se necesitan, para que otro usuario pueda ejecutar el proyecto.
-3. Mostrando imagenes de muestra de algun resultado.
-4. Describir que has aprendido en este curso.
+   - Muestra un cuadro de entrada donde el usuario puede escribir el nombre del Pokémon que desea buscar.
+   - Al presionar el botón "Buscar", se llama a la función `display_pokemon_data` con el nombre ingresado.
 
-### Objetivos
+2. **display_pokemon_data**:
 
-- Aprenderá a consumir una API web pública con la librería requests.
-- Dominará la gestión de códigos de status de una API así como el manejo de los resultados.
-- Será capaz de crear un archivo dentro del sistema operativo y guardar información en él.
-- Arenderá un poco del mundo Pokémon.
+   - Obtiene los datos del Pokémon utilizando la función `fetch_pokemon_data`.
+   - Si no se encuentran datos, muestra un mensaje de error y redirige al cuadro de entrada.
+   - Crea la ventana principal donde se muestran los datos del Pokémon, incluyendo:
+     - Imagen del Pokémon.
+     - Información básica (nombre, tipos, peso, altura, habilidades).
+     - Gráfico de radar con las estadísticas.
+     - Lista de movimientos.
+     - Botones para mostrar las evoluciones del Pokémon.
+   - Guarda la información del Pokémon en un archivo JSON.
 
-### Requisitos:
+3. **display_evolutions**:
 
-- El proyecto debe realizarse de forma individual.
-- Los participantes deben entregar el link de su repositorio público de GitHub donde en el README.md detallen cómo lo hicieron, qué bibliotecas necesitaría otro usuario para ejecutar el proyecto, mostrando imágenes de muestra de algún resultado de búsqueda de un pokémon y describiendo qué han aprendido en este módulo.
+   - Genera botones horizontales con las evoluciones del Pokémon actual.
+   - Cada botón permite cargar los datos del Pokémon correspondiente.
 
-### Entregables
+4. **display_move_graph**:
 
-> Los participantes deberán entregar un repositorio de su código en GitHub con los siguientes archivos:
+   - Crea una ventana nueva que muestra un gráfico con el daño y efecto de un movimiento específico.
 
-- README.md : Donde explicarán su proyecto y lo que han aprendido como previamente se mencionó.
-- Archivo .py: El código funcional comentado de su proyecto.
-- Carpeta “pokedex”: Una carpeta con un archivo .json adentro para demostrar que han podido guardar información en un archivo con éxito.
+5. **displays_center**:
+   - Calcula las coordenadas necesarias para centrar una ventana en la pantalla.
+
+### Ejemplo de ejecución:
+
+#### Entrada:
+
+![Cuadro de entrada](attachments/input_window.png)
+
+#### Salida:
+
+Para el Pokémon **Eevee**:
+
+![Interfaz gráfica de Eevee](attachments/eevee_window.png)
+
+Para el Pokémon **Vaporeon**:
+
+![Interfaz gráfica de Vaporeon](attachments/vaporeon_window.png)
+
+#### Archivos generados:
+
+[Abrir JSON de eevee](assets/pokedex_search/pokedex/eevee.json)
+
+[Abrir JSON de vaporeon](assets/pokedex_search/pokedex/vaporeon.json)
