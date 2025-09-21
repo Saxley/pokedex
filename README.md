@@ -1,6 +1,6 @@
 # POKEDEX
 
-> Este proyecto se realizo con ayuda del material que se encuentra en el curso, ademas se tomo como referencia el proyecto del sitio web https://programmerclick.com/article/37062133001/, utiliza diferentes bibliotecas.
+> Este proyecto se realizo con ayuda del material que se encuentra en el curso, ademas se tomo como referencia el proyecto del sitio web https://programmerclick.com/article/37062133001/ y tambien se tomo como referencia la documentacion de tkinter https://docs.python.org/es/3/library/tkinter.html para la version GUI, utiliza diferentes bibliotecas, los requerimientos estan descritos como requirements_GUI.txt para la version GUI y requirements_terminal.txt para la versión de terminal.
 
 ## Versión terminal.
 
