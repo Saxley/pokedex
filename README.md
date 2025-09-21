@@ -202,8 +202,11 @@ def save_pokemon_data_as_json(pokemon_data, output_dir):
 
 > En este ejemplo se busco al pokemon pikachu desde la terminal.
 > <img src="assets/execute_program/execute_terminal.png" width="500" alt="Ejecución desde terminal">
+
 > El resultado fue el siguiente:
-> <img src="assets/pokedex_seacrh/pikachu/pikachu_full_details.png" width="500" alt="Busqueda pokemon"> > [Abrir JSON de pikachu](assets/pokedex_search/pokedex/pikachu.json)
+> <img src="assets/pokedex_seacrh/pikachu/pikachu_full_details.png" width="500" alt="Busqueda pokemon">
+
+[Abrir JSON de pikachu](assets/pokedex_search/pokedex/pikachu.json)
 
 ## Versión GUI.
 
