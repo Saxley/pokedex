@@ -256,17 +256,17 @@ def save_pokemon_data_as_json(pokemon_data, output_dir):
 
 #### Entrada:
 
-![Cuadro de entrada](attachments/input_window.png)
+> <img src="assets/execute_program/execute_gui.png" width="500" alt="Ejecución GUI">
 
 #### Salida:
 
 Para el Pokémon **Eevee**:
 
-![Interfaz gráfica de Eevee](attachments/eevee_window.png)
+> <img src="assets/execute_program/execute_gui_search.png" width="500" alt="Busqueda pokemon">
 
 Para el Pokémon **Vaporeon**:
 
-![Interfaz gráfica de Vaporeon](attachments/vaporeon_window.png)
+> <img src="assets/execute_program/execute_gui_evolution.png" width="500" alt="Seleccion Evolucion">
 
 #### Archivos generados:
 
